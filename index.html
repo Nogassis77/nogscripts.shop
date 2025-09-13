@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script Tibia OTC Premium</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            background: #0a0e17;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            width: 95%;
+            max-width: 1000px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 0 auto;
+        }
+        
+        header {
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.7);
+        }
+        
+        .subtitle {
+            color: #a0aec0;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background-color: rgba(255, 0, 0, 0.5);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            background-color: rgba(200, 0, 0, 0.7);
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+        
+        .tab-btn:hover {
+            background-color: rgba(220, 0, 0, 0.7);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .payment-toggle {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .toggle-btn {
+            padding: 10px 20px;
+            background-color: rgba(0, 242, 255, 0.5);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn.active {
+            background-color: rgba(0, 200, 220, 0.7);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.7);
+        }
+        
+        .toggle-btn:hover {
+            background-color: rgba(0, 220, 240, 0.7);
+        }
+        
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        
+        .pricing-plan {
+            background: rgba(26, 32, 44, 0.8);
+            border-radius: 12px;
+            padding: 20px;
+            width: 300px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .pricing-plan.popular {
+            border-color: #3498db;
+            transform: scale(1.03);
+        }
+        
+        .pricing-plan.popular::before {
+            content: "MAIS POPULAR";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #3498db;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .pricing-plan h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .savings-badge {
+            background: #27ae60;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 10px;
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.5);
+        }
+        
+        .price-main {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+        
+        .original-price {
+            text-decoration: line-through;
+            color: #a0aec0;
+            font-size: 1.1rem;
+        }
+        
+        .discounted-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 10px 0;
+        }
+        
+        .points-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #3498db;
+            margin: 10px 0;
+            text-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+        }
+        
+        .original-points {
+            text-decoration: line-through;
+            color: #a0aec0;
+            font-size: 1rem;
+        }
+        
+        .select-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 15px 0;
+            text-decoration: none;
+        }
+        
+        .select-btn:hover {
+            background: #219653;
+            transform: translateY(-2px);
+        }
+        
+        .selected {
+            background: #219653;
+            box-shadow: 0 0 15px rgba(39, 174, 96, 0.5);
+        }
+        
+        .features {
+            text-align: left;
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+        }
+        
+        .features h4 {
+            color: #fff;
+            margin-bottom: 12px;
+            font-size: 1rem;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            margin: 8px 0;
+            color: #cbd5e0;
+            font-size: 0.9rem;
+        }
+        
+        .feature-check {
+            color: #27ae60;
+            margin-right: 10px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(39, 174, 96, 0.5);
+        }
+        
+        /* Efeitos neon no hover */
+        .pricing-plan:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+            z-index: 2;
+        }
+        
+        /* Esquerda: Verde */
+        .pricing-plan:first-child:hover {
+            border-color: #00ff80;
+            box-shadow: 0 0 15px #00ff80, 0 0 30px #00cc66, 0 0 45px #009944;
+        }
+        
+        /* Centro: Vermelho forte */
+        .pricing-plan.popular:hover {
+            border-color: #ff0033;
+            box-shadow: 0 0 15px #ff0033, 0 0 30px #cc0029, 0 0 45px #99001f;
+        }
+        
+        /* Direita: Azul ciano */
+        .pricing-plan:last-child:hover {
+            border-color: #00f2ff;
+            box-shadow: 0 0 15px #00f2ff, 0 0 30px #00cfff, 0 0 45px #00aaff;
+        }
+        
+        .info-content {
+            text-align: left;
+            background: rgba(26, 32, 44, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            color: #cbd5e0;
+        }
+        
+        .info-content h2, .info-content h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+        
+        .info-content h3 {
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+        
+        .info-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .info-content ol, .info-content ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .info-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+        
+        .info-content strong {
+            color: #fff;
+        }
+        
+        .video-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .video-placeholder {
+            width: 280px;
+            height: 160px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e0;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .video-placeholder:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 40px;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.5);
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.6);
+        }
+        
+        .tibia-theme {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .tibia-theme h2 {
+            color: #fff;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+        }
+        
+        @media (max-width: 1024px) {
+            .pricing-container {
+                gap: 15px;
+            }
+            
+            .pricing-plan {
+                width: 280px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .pricing-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-plan {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .pricing-plan.popular {
+                transform: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab-btn {
+                width: 100%;
+                margin-bottom: 8px;
+            }
+            
+            .payment-toggle {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .toggle-btn {
+                width: 100%;
+            }
+            
+            .video-placeholder {
+                width: 100%;
+                max-width: 300px;
+                height: 140px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .tibia-theme h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <video id="video-background" autoplay muted loop>
+        <source src="guerra4.mp4" type="video/mp4">
+        Seu navegador não suporta vídeos HTML5.
+    </video>
+    
+    <div class="container">
+        <header>
+            <h1>Script Tibia OTC Premium</h1>
+            <p class="subtitle">Melhore sua experiência no Tibia com nossos recursos exclusivos</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="assinatura">Assinatura</button>
+            <button class="tab-btn" data-tab="como-usar">Como Usar</button>
+            <button class="tab-btn" data-tab="como-instalar">Como Instalar</button>
+            <button class="tab-btn" data-tab="videos">Vídeos</button>
+        </div>
+        
+        <div id="assinatura" class="tab-content active">
+            <div class="tibia-theme">
+                <h2>Escolha seu plano de assinatura</h2>
+            </div>
+            
+            <div class="payment-toggle">
+                <button class="toggle-btn active" data-payment="money">Pagamento em Dinheiro</button>
+                <button class="toggle-btn" data-payment="points">Pagamento com Pontos</button>
+            </div>
+            
+            <div class="pricing-container">
+                <div class="pricing-plan">
+                    <h3>SEMANAL</h3>
+					<div class="savings-badge">ECONOMIZE 33%</div>
+					<div class="original-price payment-money">R$15,00/mês</div>
+                    <div class="price-main payment-money">R$9,99/mês</div>
+                    <div class="original-points payment-points" style="display: none;">150 Pontos</div>
+                    <div class="points-price payment-points" style="display: none;">100 Pontos</div>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20semanal%20por%2010%2C00.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-money" target="_blank">SELECIONAR</a>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20semanal%20por%20100%20pontos.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-points" style="display: none;" target="_blank">SELECIONAR</a>
+                    
+                    <div class="features">
+                        <h4>Recursos Inclusos:</h4>
+                        <div class="feature"><span class="feature-check">✓</span> Cave Bot Avançado</div>
+                        <div class="feature"><span class="feature-check">✓</span> Target System</div>
+                        <div class="feature"><span class="feature-check">✓</span> HUD Personalizável</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Healer</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Rune Maker</div>
+                    </div>
+                </div>
+                
+                <div class="pricing-plan popular">
+                    <h3>MENSAL</h3>
+                    <div class="savings-badge">ECONOMIZE 50%</div>
+                    <div class="original-price payment-money">R$60,00/mês</div>
+                    <div class="discounted-price payment-money">R$29,99/mês</div>
+                    <div class="original-points payment-points" style="display: none;">600 Pontos</div>
+                    <div class="points-price payment-points" style="display: none;">300 Pontos</div>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20mensal%20por%2030%2C00.%20O%20que%20preciso%20fazer%3F" class="select-btn selected payment-money" target="_blank">SELECIONADO</a>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20mensal%20por%20300%20pontos.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-points" style="display: none;" target="_blank">SELECIONAR</a>
+                    
+                    <div class="features">
+                        <h4>Recursos Inclusos:</h4>
+                        <div class="feature"><span class="feature-check">✓</span> Cave Bot Avançado</div>
+                        <div class="feature"><span class="feature-check">✓</span> Target System</div>
+                        <div class="feature"><span class="feature-check">✓</span> HUD Personalizável</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Healer</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Rune Maker</div>
+                        <div class="feature"><span class="feature-check">✓</span> Loot Seller</div>
+                    </div>
+                </div>
+                
+                <div class="pricing-plan">
+                    <h3>QUINZENAL</h3>
+                    <div class="savings-badge">ECONOMIZE 40%</div>
+                    <div class="original-price payment-money">R$30,00/mês</div>
+                    <div class="discounted-price payment-money">R$17,99/mês</div>
+                    <div class="original-points payment-points" style="display: none;">300 Pontos</div>
+                    <div class="points-price payment-points" style="display: none;">180 Pontos</div>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20quinzenal%20por%2018%2C00.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-money" target="_blank">SELECIONAR</a>
+                    <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20quinzenal%20por%20180%20pontos.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-points" style="display: none;" target="_blank">SELECIONAR</a>
+                    
+                    <div class="features">
+                        <h4>Recursos Inclusos:</h4>
+                        <div class="feature"><span class="feature-check">✓</span> Cave Bot Avançado</div>
+                        <div class="feature"><span class="feature-check">✓</span> Target System</div>
+                        <div class="feature"><span class="feature-check">✓</span> HUD Personalizável</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Healer</div>
+                        <div class="feature"><span class="feature-check">✓</span> Auto Rune Maker</div>
+                        <div class="feature"><span class="feature-check">✓</span> Loot Seller</div>
+                        <div class="feature"><span class="feature-check">✓</span> Advanced Trainer</div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="https://wa.me/5524998592033?text=Ol%C3%A1!%20Tenho%20d%C3%BAvida%20sobre%20o%20script.%20Pode%20me%20ajudar%3F" class="whatsapp-btn" target="_blank">
+                <i class="fab fa-whatsapp"></i> Alguma duvida? Chame no Whatsapp!
+            </a>
+        </div>
+        
+        <div id="como-usar" class="tab-content">
+            <div class="tibia-theme">
+                <h2>Como Usar o Script Tibia OTC</h2>
+            </div>
+            
+            <div class="info-content">
+                <h3>Guia de Utilização</h3>
+                <p>Após instalar o script, siga estas instruções para utilizá-lo corretamente:</p>
+                
+                <ol>
+                    <li>Inicie o Tibia OTC e faça login em seu personagem</li>
+                    <li>Pressione a tecla F2 para abrir o menu de configurações</li>
+                    <li>Configure as opções de acordo com sua necessidade</li>
+                    <li>Salve as configurações e feche o menu</li>
+                    <li>Use F3 para ativar/desativar recursos rapidamente</li>
+                    <li>Use F4 para abrir o menu de cavebot</li>
+                </ol>
+                
+                <h3>Recursos Disponíveis</h3>
+                <ul>
+                    <li><strong>Cave Bot Avançado</strong>: Sistema automático de caça</li>
+                    <li><strong>Target System</strong>: Priorização de alvos</li>
+                    <li><strong>HUD Personalizável</strong>: Interface adaptável</li>
+                    <li><strong>Auto Healer</strong>: Cura automática</li>
+                    <li><strong>Auto Rune Maker</strong>: Fabricação de runas</li>
+                    <li><strong>Loot Seller</strong>: Venda automática de loot</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="como-instalar" class="tab-content">
+            <div class="tibia-theme">
+                <h2>Como Instalar o Script</h2>
+            </div>
+            
+            <div class="info-content">
+                <h3>Instalação Passo a Passo</h3>
+                
+                <ol>
+                    <li>Faça o download do arquivo de instalação</li>
+                    <li>Feche completamente o cliente do Tibia</li>
+                    <li>Extraia o conteúdo do arquivo ZIP em uma pasta dedicada</li>
+                    <li>Execute o arquivo "Instalador.exe" como administrador</li>
+                    <li>Siga as instruções do assistente de instalação</li>
+                    <li>Inicie o Tibia OTC após a conclusão</li>
+                </ol>
+                
+                <h3>Requisitos do Sistema</h3>
+                <ul>
+                    <li>Tibia OTC instalado e atualizado</li>
+                    <li>Sistema Operacional: Windows 7 ou superior</li>
+                    <li>Memória RAM: 4GB mínimo (8GB recomendado)</li>
+                    <li>Antivirus: Pode ser necessário adicionar exceção</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="videos" class="tab-content">
+            <div class="tibia-theme">
+                <h2>Vídeos Explicativos</h2>
+            </div>
+            
+            <div class="video-container">
+                <div class="video-placeholder">Vídeo de Instalação</div>
+                <div class="video-placeholder">Configuração do Cavebot</div>
+                <div class="video-placeholder">Gameplay com o Script</div>
+                <div class="video-placeholder">Dicas Avançadas</div>
+            </div>
+            
+            <div class="info-content">
+                <p>Nossos vídeos demonstram como instalar, configurar e utilizar o script da melhor forma possível no Tibia OTC.</p>
+                
+                <p>Em breve adicionaremos mais conteúdo visual para ajudar você a aproveitar ao máximo nossos recursos.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navegação entre abas principais
+            const mainTabBtns = document.querySelectorAll('.tab-btn');
+            const mainTabContents = document.querySelectorAll('.tab-content');
+            
+            mainTabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    mainTabBtns.forEach(b => b.classList.remove('active'));
+                    mainTabContents.forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked button and corresponding content
+                    btn.classList.add('active');
+                    const tabId = btn.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Alternar entre dinheiro e pontos
+            const toggleBtns = document.querySelectorAll('.toggle-btn');
+            const moneyElements = document.querySelectorAll('.payment-money');
+            const pointsElements = document.querySelectorAll('.payment-points');
+            
+            toggleBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    toggleBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    const paymentType = btn.getAttribute('data-payment');
+                    
+                    if (paymentType === 'money') {
+                        moneyElements.forEach(el => el.style.display = 'block');
+                        pointsElements.forEach(el => el.style.display = 'none');
+                    } else {
+                        moneyElements.forEach(el => el.style.display = 'none');
+                        pointsElements.forEach(el => el.style.display = 'block');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
