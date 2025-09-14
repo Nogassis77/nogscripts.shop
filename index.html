@@ -1377,6 +1377,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const overlay = document.getElementById('video-overlay');
   const overlayVideo = document.getElementById('overlay-video');
   const closeBtn = document.querySelector('.video-close');
+  const backgroundVideo = document.getElementById('video-background'); // Referência ao vídeo de fundo
 
   // Abrir vídeo
   document.querySelectorAll('.video-placeholder video').forEach(video => {
@@ -1387,9 +1388,9 @@ document.addEventListener('DOMContentLoaded', function() {
         e.stopPropagation();
         const source = video.querySelector('source');
         
-        // Pausar todos os vídeos antes de abrir o overlay
+        // Pausar todos os vídeos (exceto o de fundo) antes de abrir o overlay
         document.querySelectorAll('video').forEach(v => {
-          if (v !== overlayVideo) {
+          if (v !== overlayVideo && v !== backgroundVideo) { // Não pausar overlayVideo nem backgroundVideo
             v.pause();
           }
         });
