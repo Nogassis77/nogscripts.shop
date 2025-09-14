@@ -583,8 +583,32 @@
             box-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
             border: 2px solid rgba(0, 195, 255, 0.3);
         }
-        
-        .welcome-close {
+		
+		/* Efeito brilhante vermelho para os cards de vídeo */
+        .video-placeholder {
+         transition: all 0.3s ease-in-out;
+    border: 2px solid transparent;
+}
+
+.video-placeholder:hover {
+    border-color: #ff0033 !important;
+    box-shadow: 0 0 15px #ff0033, 0 0 30px #cc0029, 0 0 45px #99001f !important;
+    transform: translateY(-5px) scale(1.05) !important;
+    z-index: 10;
+}
+
+/* Estilo adicional para os botões de play e expandir nos vídeos */
+.video-play-btn, .video-expand-btn {
+    transition: all 0.2s ease;
+}
+
+.video-play-btn:hover, .video-expand-btn:hover {
+    background: rgba(255, 0, 0, 0.7) !important;
+    color: #fff !important;
+    transform: scale(1.1);
+}
+		
+		.welcome-close {
             position: absolute;
             top: 15px;
             right: 15px;
@@ -652,6 +676,29 @@
     backdrop-filter: blur(4px);
 }
 
+/* Efeito brilhante vermelho para os cards de vídeo */
+.video-placeholder {
+    transition: all 0.3s ease-in-out;
+    border: 2px solid transparent;
+}
+
+.video-placeholder:hover {
+    border-color: #ff0033 !important;
+    box-shadow: 0 0 15px #ff0033, 0 0 30px #cc0029, 0 0 45px #99001f !important;
+    transform: translateY(-5px) scale(1.05) !important;
+    z-index: 10;
+}
+
+/* Estilo adicional para os botões de play e expandir nos vídeos */
+.video-play-btn, .video-expand-btn {
+    transition: all 0.2s ease;
+}
+
+.video-play-btn:hover, .video-expand-btn:hover {
+    background: rgba(255, 0, 0, 0.7) !important;
+    color: #fff !important;
+    transform: scale(1.1);
+}
 
 .download-btn {
     display: inline-block;
@@ -906,6 +953,8 @@
                     <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20quinzenal%20por%2018%2C00.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-money" target="_blank">SELECIONAR</a>
                     <a href="https://wa.me/5524998592033?text=Oi!%20Quero%20adquirir%20o%20script%20quinzenal%20por%20180%20pontos.%20O%20que%20preciso%20fazer%3F" class="select-btn payment-points" style="display: none;" target="_blank">SELECIONAR</a>
                     
+					
+					
                     <div class="features">
                         <h4>Recursos Inclusos:</h4>
                         <div class="feature"><span class="feature-check">✓</span> Cave Bot Avançado</div>
@@ -918,6 +967,8 @@
                     </div>
                 </div>
             </div>
+			
+			
             
             <a href="https://wa.me/5524998592033?text=Ol%C3%A1!%20Tenho%20d%C3%BAvida%20sobre%20o%20script.%20Pode%20me%20ajudar%3F" class="whatsapp-btn" target="_blank">
                 <i class="fab fa-whatsapp"></i> Alguma duvida? Chame no Whatsapp!
@@ -1184,6 +1235,18 @@
                 if (!audioEnabled) return;
                 playAudio(blueSound);
             });
+			
+			// Efeito sonoro ao passar o mouse nos vídeos
+const videoPlaceholders = document.querySelectorAll('.video-placeholder');
+
+videoPlaceholders.forEach(placeholder => {
+    placeholder.addEventListener('mouseenter', function() {
+        if (audioEnabled) {
+            // Tocar som de hover (usando o som vermelho como exemplo)
+            playAudio(redSound);
+        }
+    });
+});
             
             // Navegação entre abas principais
             const mainTabBtns = document.querySelectorAll('.tab-btn');
